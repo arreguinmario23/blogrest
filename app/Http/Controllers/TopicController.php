@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Topic;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
 class TopicController extends Controller
 {
     public function index(Request $req){

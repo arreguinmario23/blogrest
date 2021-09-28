@@ -4,48 +4,54 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+
 
 class PostController extends Controller
 {
-    //Funcion Consultar Post
-    public function index(Request $req){
+    public function index(){
         return Post::all();
     }
-    //Funcion de Consultar uno por uno
-    public function get($post){
-        $result = Post::find($post);
+
+    public function get($id_topic){
+        $result = Post::where('topics_id', $id_topic);
         if($result)
             return $result;
         else
             return response()->json(['status'=>'failed'], 404);
     }
-    //Funcion de Crear uno nuevo
+
     public function create(Request $req){
         $this->validate($req, [
-            'id'=>'required', 
-            'user'=>'required',
-            'topics_id'=>'required']);
+            'topics_id'=>'required',
+            'mensaje'=>'required']);
+
         $datos = new Post;
+        $datos->user = $req->user()->user;
         $result = $datos->fill($req->all())->save();
         if($result)
             return response()->json(['status'=>'success'], 200);
         else
             return response()->json(['status'=>'failed'], 404);
     }
-    //Modificar Campo
-    public function update(Request $req, $post){
+
+    public function update(Request $req, $id){
         $this->validate($req, [
-            'user'=>'filled']);
-        $datos = Post::find($post);
+            'mensaje'=>'filled']);
+        
+        
+        $datos = Post::find($id);
+        if(!$datos) return response()->json(['status'=>'failed'], 404);
+        if($req->user()->user != $datos->user) return response()->json(['status'=>'failed'], 401);
         $result = $datos->fill($req->all())->save();
         if($result)
             return response()->json(['status'=>'success'], 200);
         else
             return response()->json(['status'=>'failed'], 404);
     }
-    public function destroy($post){
-        $datos = Post::find($post);
+
+    public function destroy($id){
+        
+        $datos = Post::find($id);
         if(!$datos) return response()->json(['status'=>'failed'], 404);
         $result = $datos->delete();
         if($result)
@@ -53,4 +59,5 @@ class PostController extends Controller
         else
             return response()->json(['status'=>'failed'], 404);
     }
+
 }
