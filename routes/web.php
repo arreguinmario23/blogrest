@@ -19,7 +19,7 @@ $router->get('/', function () use ($router) {
 //Ruta Login
 $router->get('/login/{user}/{pass}', 'AuthController@login');
 
-$router->group(['middleware'=>['auth']], function() use($router){
+$router->group(['middleware'=>['auth','cors']], function() use($router){
 //Funciones para los usuarios
 $router->get('/usuario', 'UserController@index');
 $router->get('/usuario/{user}', 'UserController@get');
