@@ -28,13 +28,13 @@ $router->put('/usuario/{user}', 'UserController@update');
 $router->delete('/usuario/{user}', 'UserController@destroy');
 //Funciones para los topics
 $router->get('/topico', 'TopicController@index');
-$router->get('/topico/{topic}', 'TopicController@get');
+$router->get('/topico/{id}', 'TopicController@get');
 $router->post('/topico', 'TopicController@create');
-$router->put('/topico/{topic}', 'TopicController@update');
-$router->delete('/topico/{topic}', 'TopicController@destroy');
+$router->put('/topico/{id}', 'TopicController@update');
+$router->delete('/topico/{id}', 'TopicController@destroy');
 //Funciones para los post
 $router->get('/post', 'PostController@index');
-$router->get('/post/{id}', 'PostController@get');
+$router->get('/post/{id_topico}', 'PostController@get');
 $router->post('/post', 'PostController@create');
 $router->put('/post/{id}', 'PostController@update');
 $router->delete('/post/{id}', 'PostController@destroy');
